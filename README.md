@@ -6,7 +6,7 @@ Read `RESEARCH_CONTRACT.md`, `agents/INDEPENDENT_AGENTS.md`, `SCOREBOARD.json`, 
 
 ## Baseline boundary
 
-`b346dab1-fa52-461c-a35b-fd811f712a31` is a Yukon submission ID, not a Git commit. At the recorded read it was validating with null official score, judgment, submitted commit and evaluated commit. Its note claims 4.89253; this is not a validated result. Its exact submitted bytes were not available. Do not treat a mutable challenge checkout as the frozen submission. See `evidence/LEDGER.md` and the captured Yukon response. On arrival of the immutable artifact and provenance, create `baseline/b346dab1/` containing every submission file, certificate and SHA-256 manifest and cross-check original bytes.
+`b346dab1-fa52-461c-a35b-fd811f712a31` is a Yukon submission ID, not a Git commit. Yukon later rejected it after both hosted certificate executions timed out; its claimed 4.89253 is unestablished, not disproved. The exact evaluated commit is `51bd01f184d39d2105a2764df51bf57792b300e9`; its six submitted files are preserved unchanged in `baseline/b346dab1/` with a SHA-256 manifest. The earlier validating response remains historical evidence; see `evidence/b346dab1-rejection.json` for the subsequent verdict. Local certificate execution is not the hosted timeout test or a proof review.
 
 ## Work lanes
 

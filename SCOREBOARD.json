@@ -3,16 +3,17 @@
   "entries": [
     {
       "id": "b346dab1",
-      "claim": "Yukon submission b346dab1 note claims coefficient 489253/100000; validating at observation; exact submitted snapshot unavailable.",
+      "claim": "Yukon submission b346dab1 claims 489253/100000; rejected after both certificate executions timed out; immutable submitted files preserved under baseline/b346dab1.",
       "authors": [
         "antigravity"
       ],
       "dependencies": [],
       "research_status": "candidate",
       "review_status": "not_requested",
-      "external_status": "validating",
+      "external_status": "rejected",
       "evidence": [
-        "snapshots/b346dab1/yukon_observation.json: public API observation only, not the submitted proof"
+        "snapshots/b346dab1/yukon_observation.json: public API observation only, not the submitted proof",
+        "evidence/b346dab1-rejection.json; baseline/b346dab1/sha256sums.txt"
       ],
       "reviews": [],
       "snapshot": {
@@ -25,7 +26,7 @@
         "numerator": "489253",
         "denominator": "100000"
       },
-      "evidence_grade": "submitted_not_yet_evaluated",
+      "evidence_grade": "yukon_evaluated_rejected",
       "eligible": false
     },
     {
