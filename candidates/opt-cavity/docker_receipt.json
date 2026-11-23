@@ -1,0 +1,52 @@
+{
+  "image": "python:3.12.12-slim-bookworm@sha256:2986c55feb36e6cae00fa1fefb454283e4b33f35e75ff8bdd123b134130be301",
+  "platform": "linux/amd64 on Apple Silicon Docker emulation; not hosted CPU",
+  "cpu_limit": 1,
+  "memory_mb": 256,
+  "memory_swap_mb": 256,
+  "inside_process_wall_timeout_s": 20,
+  "host_wall_includes_container_startup": true,
+  "results": [
+    {
+      "run": 0,
+      "variant": "baseline",
+      "exit_code": 124,
+      "host_wall_s": 20.161448500002734,
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_bytes": 0
+    },
+    {
+      "run": 1,
+      "variant": "candidate",
+      "exit_code": 124,
+      "host_wall_s": 20.11463487497531,
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_bytes": 0
+    },
+    {
+      "run": 2,
+      "variant": "candidate",
+      "exit_code": 124,
+      "host_wall_s": 20.117425583011936,
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_bytes": 0
+    },
+    {
+      "run": 3,
+      "variant": "baseline",
+      "exit_code": 124,
+      "host_wall_s": 20.12179454098805,
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_bytes": 0
+    }
+  ],
+  "limitations": [
+    "not exact verifier snapshot/setup timer",
+    "shared machine contention not controlled",
+    "no result bytes on timeout"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "version": "circuitbreaker-expression-v2",
+  "convention": "uniform-np-full-b2-actual-length-all-lengths-v1",
+  "family": "The total norm-one language defined in the section From cubic layouts to the norm-one language in proof.md, including invalid headers, small lengths and the ignored tail. Its witness is empty.",
+  "theorem": "At every sufficiently large actual length N this fixed language requires at least (489253/100000)N gates in the full B2 model with zero explicit remainder.",
+  "guarantee": {
+    "kind": "eventual_lower_bound",
+    "leading": {
+      "kind": "polynomial_log",
+      "coefficient": {
+        "numerator": "489253",
+        "denominator": "100000"
+      },
+      "exponent": {
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "log_exponent": {
+        "numerator": "0",
+        "denominator": "1"
+      },
+      "loglog_exponent": {
+        "numerator": "0",
+        "denominator": "1"
+      }
+    },
+    "remainder": {
+      "kind": "explicit",
+      "terms": []
+    }
+  },
+  "projection": {
+    "kind": "finite",
+    "coefficient": {
+      "numerator": "489253",
+      "denominator": "100000"
+    },
+    "exponent": {
+      "numerator": "1",
+      "denominator": "1"
+    }
+  }
+}
