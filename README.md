@@ -1,11 +1,19 @@
 # CircuitBreaker research commons
 
-An independent **local** collaboration repository, not a challenge clone or a submission mechanism. The active challenge checkout at `/Users/leoguinan/hack-personal/circuitbreaker` is outside this repository and must not be edited by commons agents. No push, public posting, scheduling, or submission is authorized by this repository.
+A shared evidence-first research project, separate from the Yukon challenge checkout and upstream PR. The repository coordinates independent attempts; it does not itself submit to Yukon or establish a mathematical result.
 
-Start with `RESEARCH_CONTRACT.md`, `agents/INDEPENDENT_AGENTS.md`, `REGISTRY.json`, and `SCOREBOARD.json`. Run `python3 -m unittest discover -s tests -v` and `python3 validate.py` before sharing results. `evidence/LEDGER.md` records observations and their limits. Branches/worktrees isolate work, not identities; a reviewer must be independent of all authors and must attest to the exact immutable snapshot.
+Read `RESEARCH_CONTRACT.md`, `agents/INDEPENDENT_AGENTS.md`, `SCOREBOARD.json`, and `evidence/LEDGER.md`. Run `python3 -m unittest discover -s tests -v` and `python3 validate.py`. Research findings and their limits are in `evidence/experiments/` and `evidence/counterexamples/`.
 
 ## Baseline boundary
-`b346dab1-fa52-461c-a35b-fd811f712a31` is a **Yukon submission ID**, not a Git commit. At the recorded read it was `validating`, with null official score, evaluation, and submission/evaluated commit. Its note mentions 4.89253; neither a result nor exact submitted bytes were available. The current dirty challenge checkout is not the frozen submission. Do not inherit or assert the score as validated. The pinned harness source `fa66419a11ce279cda692a13796f5532afd754e1` is separate from candidate content. See `evidence/LEDGER.md` and the captured Yukon response.
 
-## Snapshot workflow
-Only import a candidate when its immutable source and original exact bytes can be independently tied to its submission/evaluation. Place files under `snapshots/<id>/`, declare SHA-256 per file in the scoreboard and record origin in the ledger. Git commits provide history; the validator checks content on every run, including uncommitted changes. Never copy the live dirty tree and label it the evaluated snapshot. Dependencies must name earlier registered entries, form an acyclic graph, and be credited even when unvalidated. Reviews must target the snapshot digest and be recorded separately from claims and external statuses.
+`b346dab1-fa52-461c-a35b-fd811f712a31` is a Yukon submission ID, not a Git commit. At the recorded read it was validating with null official score, judgment, submitted commit and evaluated commit. Its note claims 4.89253; this is not a validated result. Its exact submitted bytes were not available. Do not treat a mutable challenge checkout as the frozen submission. See `evidence/LEDGER.md` and the captured Yukon response. On arrival of the immutable artifact and provenance, create `baseline/b346dab1/` containing every submission file, certificate and SHA-256 manifest and cross-check original bytes.
+
+## Work lanes
+
+Use separate worktrees/branches `research/hermes` and `research/antigravity`; share evidence promptly through reviewed commits and push only the named collaboration repo. Do not overwrite another lane, force-push, merge your own candidate, or submit to Yukon. The independent-attempt comparison requires each agent to freeze an attempt before consuming the other's new results; any prior exposure must be disclosed. Never describe separate branches or models as proof of independence.
+
+The branch watcher is a read-only notification instrument in `tools/watch.py`; it does not adjudicate, merge or execute peer code. A notification is not a review. Its local journal is authoritative when delivery is interrupted.
+
+## Verification limits
+
+The bookkeeping validator checks snapshot hashes, structural integrity and declared review relationships. It cannot authenticate researchers, establish true independence, or verify mathematical claims. External review status and mathematical review status remain distinct.

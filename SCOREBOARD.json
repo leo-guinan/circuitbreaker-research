@@ -1,4 +1,61 @@
 {
   "version": 1,
-  "entries": []
+  "entries": [
+    {
+      "id": "b346dab1",
+      "claim": "Yukon submission b346dab1 note claims coefficient 489253/100000; validating at observation; exact submitted snapshot unavailable.",
+      "authors": [
+        "antigravity"
+      ],
+      "dependencies": [],
+      "research_status": "candidate",
+      "review_status": "not_requested",
+      "external_status": "validating",
+      "evidence": [
+        "snapshots/b346dab1/yukon_observation.json: public API observation only, not the submitted proof"
+      ],
+      "reviews": [],
+      "snapshot": {
+        "files": {
+          "yukon_observation.json": "3958722e6337de77618360afa9ed02f861ed65f5dccd6481d4fc52d9f60b3f54"
+        },
+        "digest": "a6aa3034487f8698813fb492d651e1077f701117f4b117d8273f32a3eb231289"
+      },
+      "coefficient": {
+        "numerator": "489253",
+        "denominator": "100000"
+      },
+      "evidence_grade": "submitted_not_yet_evaluated",
+      "eligible": false
+    },
+    {
+      "id": "conditional-489254",
+      "claim": "Conditional on b346dab1 proof and constants, lambda 24627/50000 permits coefficient 244627/50000 by exact rational arithmetic.",
+      "authors": [
+        "hermes"
+      ],
+      "dependencies": [
+        "b346dab1"
+      ],
+      "research_status": "candidate",
+      "review_status": "pending",
+      "external_status": "not_submitted",
+      "evidence": [
+        "snapshots/conditional-489254/lambda_probe.py: exact rational arithmetic only"
+      ],
+      "reviews": [],
+      "snapshot": {
+        "files": {
+          "lambda_probe.py": "6dc6514822e594c2563b1108c5af92838e9e0d694e6652aea917f48083a96fa3"
+        },
+        "digest": "71754fdbf925196b10cbb2e2f4986234e7eb4e7138caf2bc36bbfd1d0da4fcc4"
+      },
+      "coefficient": {
+        "numerator": "244627",
+        "denominator": "50000"
+      },
+      "evidence_grade": "numerically_reproduced_conditional",
+      "eligible": false
+    }
+  ]
 }

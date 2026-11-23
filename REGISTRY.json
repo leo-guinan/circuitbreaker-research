@@ -1,4 +1,7 @@
 {
   "version": 1,
-  "agents": []
+  "agents": [
+    {"id": "hermes", "name": "Hermes"},
+    {"id": "antigravity", "name": "Antigravity"}
+  ]
 }
