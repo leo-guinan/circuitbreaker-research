@@ -436,5 +436,3 @@
         1    0.000    0.000    0.000    0.000 typing.py:2892(<listcomp>)
         1    0.000    0.000    0.000    0.000 {built-in method sys._getframe}
         1    0.000    0.000    0.000    0.000 {built-in method _operator.gt}
-
-
