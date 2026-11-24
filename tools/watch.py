@@ -19,19 +19,25 @@ ENV = {'PATH': '/usr/bin:/bin', 'HOME': '/nonexistent', 'GIT_CONFIG_NOSYSTEM': '
 OID = re.compile(r'^[0-9a-f]{40}(?:[0-9a-f]{24})?$')
 
 class WatchError(Exception):
-    pass
+    def __init__(self, message, stage='validation', error_class='watch_error', exit_code=None):
+        super().__init__(message)
+        self.stage = stage
+        self.error_class = error_class
+        self.exit_code = exit_code
 
-def git(*args, cwd=None, check=True):
+def git(*args, cwd=None, check=True, stage='git'):
     try:
         r = subprocess.run([GIT, '-c', 'core.hooksPath=/dev/null', '-c', 'credential.helper=',
                             '-c', 'gc.auto=0', '-c', 'maintenance.auto=false',
                             '-c', 'protocol.ext.allow=never', *args], cwd=cwd, env=ENV,
                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=120)
-    except (OSError, subprocess.TimeoutExpired):
-        raise WatchError('git invocation failed or timed out') from None
+    except subprocess.TimeoutExpired:
+        raise WatchError('git timed out', stage, 'git_timeout') from None
+    except OSError:
+        raise WatchError('git invocation failed', stage, 'git_oserror') from None
     if check and r.returncode:
         # Never print remote, git diagnostics, local configuration or credentials.
-        raise WatchError('git operation failed')
+        raise WatchError('git operation failed', stage, 'git_exit', r.returncode)
     return r
 
 def atomic_json(path, obj):
@@ -73,9 +79,9 @@ def poll(remote, branch, root):
             state = {'version': 1, 'remote': remote, 'branch': branch, 'tip': None,
                      'present': False, 'initialized': False, 'events': []}
         repo = root / 'objects.git'
-        if not repo.exists(): git('init', '--bare', '--quiet', str(repo))
+        if not repo.exists(): git('init', '--bare', '--quiet', str(repo), stage='repository_init')
         ref = 'refs/heads/' + branch
-        result = git('ls-remote', '--heads', '--', remote, ref).stdout.splitlines()
+        result = git('ls-remote', '--heads', '--', remote, ref, stage='remote_lookup').stdout.splitlines()
         if len(result) > 1: raise WatchError('ambiguous remote branch response')
         if not result:
             if not state['initialized'] or not state['present']:
@@ -88,11 +94,11 @@ def poll(remote, branch, root):
                 raise WatchError('invalid remote branch response')
             # Fetch by ref, not the advertised oid: validate fetched oid, tolerate branch races by retrying later.
             git('-C', str(repo), '-c', 'fetch.fsckObjects=true', 'fetch', '--no-tags', '--no-recurse-submodules',
-                '--force', '--', remote, '+' + ref + ':refs/watch/target')
-            tip = git('-C', str(repo), 'rev-parse', '--verify', 'refs/watch/target^{commit}').stdout.decode().strip()
+                '--force', '--', remote, '+' + ref + ':refs/watch/target', stage='remote_fetch')
+            tip = git('-C', str(repo), 'rev-parse', '--verify', 'refs/watch/target^{commit}', stage='resolve_tip').stdout.decode().strip()
             if tip != fields[0].decode(): raise WatchError('branch changed during fetch; retry')
             # Keep every observed tip reachable even after force pushes or explicit GC.
-            git('-C', str(repo), 'update-ref', 'refs/watch/archive/' + tip, tip)
+            git('-C', str(repo), 'update-ref', 'refs/watch/archive/' + tip, tip, stage='archive_tip')
             if not state['initialized']:
                 state.update(initialized=True, present=True, tip=tip)
                 atomic_json(state_path, state)
@@ -102,7 +108,7 @@ def poll(remote, branch, root):
             if old == tip:
                 commits = []; kind = 'branch_restored'
             else:
-                commits = git('-C', str(repo), 'rev-list', '--reverse', '--topo-order', tip, '^' + old).stdout.decode().splitlines()
+                commits = git('-C', str(repo), 'rev-list', '--reverse', '--topo-order', tip, '^' + old, stage='list_commits').stdout.decode().splitlines()
                 if any(not OID.fullmatch(c) for c in commits): raise WatchError('invalid commit list')
                 kind = 'branch_updated' if state['present'] else 'branch_restored'
             event = {'kind': kind, 'previous_tip': old, 'tip': tip, 'commits': commits}
@@ -122,8 +128,13 @@ def main():
     try:
         event = poll(a.remote, a.branch, Path(a.state_dir).expanduser().resolve())
         if event is not None: print(json.dumps(event, sort_keys=True), flush=True)
-    except (WatchError, OSError, ValueError, KeyError, TypeError):
-        print('watch failed; state was not advanced', file=sys.stderr)
+    except (WatchError, OSError, ValueError, KeyError, TypeError) as exc:
+        detail = {'status': 'watch_failed', 'stage': getattr(exc, 'stage', 'state_or_protocol'),
+                  'error_class': getattr(exc, 'error_class', type(exc).__name__),
+                  'cursor_status': 'unknown_check_state'}
+        if isinstance(exc, WatchError) and exc.exit_code is not None:
+            detail['exit_code'] = exc.exit_code
+        print(json.dumps(detail, sort_keys=True), file=sys.stderr)
         return 1
     return 0
 

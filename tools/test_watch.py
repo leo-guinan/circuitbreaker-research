@@ -38,7 +38,12 @@ class Integration(unittest.TestCase):
         self.assertEqual(event['commits'], [b, c]); self.assertEqual(event['previous_tip'], a)
         self.assertEqual(self.runwatch().stdout, '')
         # A failed fetch/remote lookup never advances the cursor.
-        self.remote.rename(self.base/'offline.git'); self.assertNotEqual(self.runwatch().returncode, 0)
+        self.remote.rename(self.base/'offline.git'); failed = self.runwatch(); self.assertNotEqual(failed.returncode, 0)
+        detail = json.loads(failed.stderr)
+        self.assertEqual(detail['stage'], 'remote_lookup')
+        self.assertEqual(detail['error_class'], 'git_exit')
+        self.assertIsInstance(detail['exit_code'], int)
+        self.assertNotIn(str(self.base), failed.stderr)
         self.assertEqual(self.state_data()['tip'], c); (self.base/'offline.git').rename(self.remote)
         self.g('-C', str(self.work), 'push', '-q', str(self.remote), ':refs/heads/research/antigravity')
         self.assertEqual(json.loads(self.runwatch().stdout)['kind'], 'branch_missing')
